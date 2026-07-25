@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+enum Role {
+  OFFICE_OWNER
+  LAWYER
+  SECRETARY
+  CLIENT
+}
+
+enum CaseStatus {
+  ACTIVE
+  CLOSED
+  PENDING
+}
+
+model User {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  fullName   String
+  password   String
+  phone      String?
+  role       Role     @default(CLIENT)
+  isVerified Boolean  @default(false)
+  officeId   String?  @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  cases      Case[]
+  tasks      Task[]
+}
+
+model Client {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  email      String?
+  phone      String
+  nationalId String?
+  address    String?
+  officeId   String   @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  cases      Case[]
+}
+
+model Case {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  caseNumber   String
+  title        String
+  type         String?
+  court        String?
+  status       String    @default("ACTIVE")
+  notes        String?
+  officeId     String    @db.ObjectId
+  clientId     String    @db.ObjectId
+  client       Client    @relation(fields: [clientId], references: [id])
+  assignedToId String?   @db.ObjectId
+  assignedTo   User?     @relation(fields: [assignedToId], references: [id])
+  sessions     Session[] // 👈 تأكد إن السطر ده موجود جوه Case
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionDate  DateTime
+  courtBranch  String?
+  requirements String?
+  decision     String?
+  caseId       String   @db.ObjectId
+  case         Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Task {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  dueDate    DateTime
+  status     String   @default("pending")
+  officeId   String   @db.ObjectId
+
+  assignedToId String @db.ObjectId
+  assignedTo   User   @relation(fields: [assignedToId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+

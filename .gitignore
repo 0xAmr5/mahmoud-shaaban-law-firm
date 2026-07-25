@@ -1,0 +1,56 @@
+# ==========================================
+# 1. Root & AI Tools Cache
+# ==========================================
+.agents
+.claude
+.windsurf
+skills-lock.json
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# 2. Node Dependencies (الحزم الضخمة)
+# ==========================================
+node_modules/
+**/node_modules/
+
+# ==========================================
+# 3. Backend Build & Uploads (الباك إند)
+# ==========================================
+backend/dist/
+backend/build/
+backend/uploads/
+backend/uploads/*
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# ==========================================
+# 4. Prisma & Database Cache
+# ==========================================
+backend/generated/prisma/
+backend/prisma/generated/
+.prisma
+
+# ==========================================
+# 5. Frontend Environment & Cache (الفرونت)
+# ==========================================
+frontend/.env
+frontend/.env.*
+frontend/.next/
+frontend/out/
+
+# ==========================================
+# 6. IDEs & Editors
+# ==========================================
+.vscode/*
+!.vscode/settings.json
+.idea/
+
+# ==========================================
+# 7. Logs
+# ==========================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
