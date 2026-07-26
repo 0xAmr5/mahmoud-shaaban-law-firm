@@ -1,6 +1,6 @@
 export const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
-    : 'https://mahmoud-shaaban-backend.onrender.com'; 
+    : 'https://mahmoud-shaaban-law-firm-production.up.railway.app';
 export function formatDateArabic(dateString) {
     if (!dateString) return 'غير محدد';
     const date = new Date(dateString);
