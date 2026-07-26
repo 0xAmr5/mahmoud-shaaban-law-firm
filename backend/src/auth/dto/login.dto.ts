@@ -1,10 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class LoginDto {
-  @IsEmail({}, { message: 'صيغة البريد الإلكتروني غير صحيحة' })
-  email: string;
-
+  @IsNotEmpty({ message: 'يرجى إدخال البريد الإلكتروني أو رقم الهاتف' })
   @IsString()
+  email: string; 
+
   @IsNotEmpty({ message: 'كلمة المرور مطلوبة' })
+  @IsString()
   password: string;
 }
